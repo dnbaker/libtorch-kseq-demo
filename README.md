@@ -1,2 +1,1 @@
-acs.jcim.7b00028.pdf    DeepPPI
-bty535.pdf  
+This is a simple demo of one-hot encoding of fastq/fasta files using libtorch.
