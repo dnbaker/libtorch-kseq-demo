@@ -97,7 +97,6 @@ int main(int argc, char **argv) {
         }
     }
     torch::save(seq_stacked, "stacked_seq.pt");
-    std::cerr << seq_stacked << '\n';
     for(auto &s: seqs) std::free(s.first);
   }
 }

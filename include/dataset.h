@@ -160,17 +160,13 @@ public:
     */
     template<typename It1, typename Policy=StringPolicy>
     torch::Tensor &one_hot(torch::Tensor &t, It1 i1, It1 i2, Padding pad=RIGHT_PAD, const Policy &sp=Policy()) const {
-#if !NDEBUG
-        for(size_t i = 0; i < t.dim(); ++i)
-            std::fprintf(stderr, "size at dimension %zu is: %zu\n", i, t.size(i));
-#endif
         assert(i1 < i2);
         for(size_t ind = 0;i1 != i2;++ind, ++i1) {
             //print(t[ind]);
             auto &s = *i1;
             const char *str = sp.get_string(s);
             const size_t sz =  sp.get_size(s);
-            size_t j = 0;
+            int64_t j = 0;
             if(pad == RIGHT_PAD) {
                 while(j < sz)
                     t[ind][j++][apply(*str++)] = 1;
@@ -185,8 +181,7 @@ public:
     }
     template<typename It1>
     static torch::Tensor encode_onehot(Alphabet a, torch::Tensor &t, It1 i1, It1 i2, Padding pad=RIGHT_PAD) {
-        CharTransformer(a).one_hot(t, i1, i2, pad);
-        return t;
+        return CharTransformer(a).one_hot(t, i1, i2, pad);
     }
 };
 
@@ -253,4 +248,4 @@ torch::Tensor &next_seqbatch(torch::Tensor &t, std::pair<char *, size_t> *seqs, 
     return t;
 }
 
-}
+} // namespace seq

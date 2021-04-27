@@ -17,7 +17,7 @@ int main() {
     if(!fp) throw 1;
     kseq_t *ks = kseq_init(fp);
     auto ktensor = seq::encoded_seqbatch(ks, 2);
-    print(ktensor);
+    //print(ktensor);
     kseq_destroy(ks);
     gzclose(fp);
     torch::nn::Linear zomg = nullptr;
