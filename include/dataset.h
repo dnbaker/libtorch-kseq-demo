@@ -1,6 +1,6 @@
 #pragma once
 #include "torch/torch.h"
-#include "klib/kseq.h"
+#include "kseq.h"
 #include <array>
 #include <cstdio>
 #include <algorithm>
@@ -9,11 +9,6 @@
 #else
 #  include <zlib.h>
 #endif
-#if __cplusplus >= 201703L
-#  include <string_view>
-#else
-#  include "string_view.hpp"
-#endif // #__cplusplus >= 201703L
 
 #ifndef likely
 #  if defined(__GNUC__) || defined(__clang__)
@@ -33,11 +28,6 @@
 
 namespace seq {
 KSEQ_INIT(gzFile, gzread)
-#if __cplusplus >= 201703L
-using std::string_view;
-#else
-using nonstd::string_view;
-#endif
 
 
 enum Padding: int32_t {

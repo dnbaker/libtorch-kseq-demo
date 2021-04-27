@@ -1,1 +1,0 @@
-https://duvenaud.github.io/learn-discrete/slides/graphrnn.pdf

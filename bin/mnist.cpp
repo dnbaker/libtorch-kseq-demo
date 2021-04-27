@@ -31,7 +31,7 @@ struct Net : torch::nn::Module {
 
   torch::nn::Conv2d conv1;
   torch::nn::Conv2d conv2;
-  torch::nn::FeatureDropout conv2_drop;
+  torch::nn::FeatureAlphaDropout conv2_drop;
   torch::nn::Linear fc1;
   torch::nn::Linear fc2;
 };
@@ -39,7 +39,7 @@ struct Net : torch::nn::Module {
 struct Options {
   std::string data_root{"data"};
   int32_t batch_size{64};
-  int32_t epochs{10};
+  size_t epochs{10};
   double lr{0.01};
   double momentum{0.5};
   bool no_cuda{false};
@@ -92,7 +92,7 @@ void test(
                      output,
                      targets,
                      /*weight=*/{},
-                     Reduction::Sum)
+                     torch::Reduction::Sum)
                      .template item<float>();
     auto pred = output.argmax(1);
     correct += pred.eq(targets).sum().template item<int64_t>();
@@ -150,7 +150,7 @@ auto main(int argc, const char* argv[]) -> int {
       model.parameters(),
       torch::optim::SGDOptions(options.lr).momentum(options.momentum));
 
-  for (size_t epoch = 1; epoch <= options.epochs; ++epoch) {
+  for (size_t epoch = 0; epoch <= options.epochs; ++epoch) {
     train(
         epoch, options, model, device, *train_loader, optimizer, dataset_size.value());
     test(model, device, *test_loader, dataset_size.value());

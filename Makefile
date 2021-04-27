@@ -12,8 +12,9 @@ LINKS+=-lc10 -ltorch -ltorch_cpu -lcblas -lz
 LIBTORCH+=
 INCLUDE+=-I/net/langmead-bigmem-ib.bluecrab.cluster/storage/dnb/code2/tch-rs/pytorch/torch/csrc/ -Iinclude \
 	-I/net/langmead-bigmem-ib.bluecrab.cluster/storage/dnb/code2/tch-rs/pytorch/torch/csrc/api/include/ -I/net/langmead-bigmem-ib.bluecrab.cluster/storage/dnb/code2/tch-rs/pytorch/ -I. \
-	-I/net/langmead-bigmem-ib.bluecrab.cluster/storage/dnb/code2/tch-rs/pytorch-build-ninja/aten/src/ -I/net/langmead-bigmem-ib.bluecrab.cluster/storage/dnb/code2/tch-rs/pytorch/aten/src/ -I$(LIBTORCH)
+	-I/net/langmead-bigmem-ib.bluecrab.cluster/storage/dnb/code2/tch-rs/pytorch-build-ninja/aten/src/ -I/net/langmead-bigmem-ib.bluecrab.cluster/storage/dnb/code2/tch-rs/pytorch/aten/src/ -I$(LIBTORCH) \
+	-Iinclude -I.
 	
 
 %: bin/%.cpp
-	$(CXX) $(INCLUDE) $(WARNING) $(OPT) lib/libc10d.a $< -o $@ $(LIBPATHS) $(LINKS)
+	$(CXX) $(INCLUDE) $(WARNING) $(OPT) lib/libc10d.a $< -o $@ $(LIBPATHS) $(LINKS) -I. -Iinclude
