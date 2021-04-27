@@ -212,7 +212,7 @@ torch::Tensor encoded_seqbatch(kseq_t *ks, size_t batchsz, int64_t seqlen=-1, Al
     size_t nfilled = 0;
     while(nfilled < batchsz && kseq_read(ks) >= 0) {
         seqs[nfilled++] = std::pair<char *, size_t>(ks->seq.s, ks->seq.l);
-        std::fprintf(stderr, "Read seq %s\n", ks->seq.s);
+        //std::fprintf(stderr, "Read seq %s\n", ks->seq.s);
         ks->seq.s = nullptr; ks->seq.l = 0; // Steal ownership, forces reallocation on next iteration.
     }
     if(seqlen < 0) seqlen = std::max_element(seqs, seqs + nfilled, [](const auto &x, const auto &y) {return x.second < y.second;})->second;
