@@ -164,14 +164,12 @@ public:
         for(size_t i = 0; i < t.dim(); ++i)
             std::fprintf(stderr, "size at dimension %zu is: %zu\n", i, t.size(i));
 #endif
-        size_t ind = 0;
         assert(i1 < i2);
         for(size_t ind = 0;i1 != i2;++ind, ++i1) {
             //print(t[ind]);
             auto &s = *i1;
             const char *str = sp.get_string(s);
             const size_t sz =  sp.get_size(s);
-            std::fprintf(stderr, "Now string of the zomg: %s\n", str);
             size_t j = 0;
             if(pad == RIGHT_PAD) {
                 while(j < sz)
