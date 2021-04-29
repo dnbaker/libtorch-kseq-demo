@@ -1,13 +1,12 @@
 
 
 CXX?=g++
+NVCC?=nvcc
 
-OPT+=-O3 -march=native -fopenmp
-WARNING+=-Wall -Wextra -Wno-unused-parameter
+OPT+=-O3 #-fopenmp
+WARNING+= #-Wall -Wextra -Wno-unused-parameter
 LIBPATHS+= \
-	-L/home-1/dbaker49@jhu.edu/miniconda3/lib/\
-	-L/net/langmead-bigmem-ib.bluecrab.cluster/storage/dnb/code2/tch-rs/pytorch-build-ninja/lib \
-	-L. -Llib64
+	-L~/miniconda3/envs/cuda/lib -L/home-1/dbaker49@jhu.edu/miniconda3/envs/cuda/lib/python3.9/site-packages/torch/lib/ #-L. -L64
 LINKS+=-lc10 -ltorch -ltorch_cpu -lcblas -lz
 LIBTORCH+=
 INCLUDE+=-I/net/langmead-bigmem-ib.bluecrab.cluster/storage/dnb/code2/tch-rs/pytorch/torch/csrc/ -Iinclude \
@@ -16,5 +15,5 @@ INCLUDE+=-I/net/langmead-bigmem-ib.bluecrab.cluster/storage/dnb/code2/tch-rs/pyt
 	-Iinclude -I.
 	
 
-%: bin/%.cpp
-	$(CXX) $(INCLUDE) $(WARNING) $(OPT) lib/libc10d.a $< -o $@ $(LIBPATHS) $(LINKS) -I. -Iinclude
+%-gpu: bin/%.cpp
+	$(NVCC) $(INCLUDE) $(WARNING) $(OPT) lib/libc10d.a $< -o $@ $(LIBPATHS) $(LINKS) -I. -Iinclude -ltorch_cuda -lc10_cuda
